@@ -1,0 +1,72 @@
+/* ----------------------------------------------------------------------------- BACKGROUND */
+body {
+    font-family: "DejaVu Sans", sans-serif;
+}
+
+@media screen and (min-width: 1600px) {
+    .container-fluid {
+        max-width:1500px;
+    }
+}
+
+/* ----------------------------------------------------------------------------- NAVBAR */
+.navbar {
+    background-color: rgb(0, 90, 119);
+    font-size: medium;
+    border-bottom: 1px solid #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    /* font-weight: bold; */
+}
+.nav-pills .nav-link {
+    color: #fff;
+    text-align: center;
+    letter-spacing: 3px;
+    border: 2px solid #005a77 !important;
+    border-radius: 10px;
+}
+.nav-pills .nav-link.active,  .nav-pills .nav-link:hover {
+    color: rgb(0, 90, 119);
+    background-color: #fff !important;
+    letter-spacing: 3px;
+}
+
+.nav-pills .nav-link.active i,  .nav-pills .nav-link:hover i {
+    color: rgb(0, 90, 119);
+}
+
+.navbar-toggler{
+    color: #fff !important;
+    border-style: none;
+}
+
+.nav-link-toggle {
+  color: #e85017 !important;
+  text-align: center;
+  letter-spacing: 3px;
+  background-color: #fff !important;
+  border: 2px solid #005a77 !important;
+  border-radius: 10px;
+}
+
+/* ----------------------------------------------------------------------------- COULEURS */
+.bg-bleu {
+    background-color: rgb(0, 90, 119);
+}
+
+.bg-orange {
+    background-color: rgb(232, 80, 23);
+}
+
+.bleu {
+    color: rgb(0, 90, 119);
+}
+
+.orange {
+    color: rgb(232, 80, 23);
+}
+
+/* ----------------------------------------------------------------------------- TAILLES */
+h1 {
+    font-size: x-large;
+}
