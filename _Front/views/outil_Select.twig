@@ -1,68 +1,8 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <title>Administration PDN 93</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="img/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/style.css">
+{% include 'header.html' %}
 
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-xl blue-bg fixed-top mb-3">
-            <a class="navbar-brand text-white ps-2" href="outil_Create"> <strong>ADMINISTRATION PDN</strong>
-                <img src="../img/logo.png" alt="Logo Promeneurs du Net 93">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
-                <i class="fas fa-bars fa-lg"></i>
-            </button>
-            <div class="collapse navbar-collapse justify-content-center" id="myNavbar">
-                <ul class="nav nav-pills navbar-nav">
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="menuderoulantRess" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            &nbsp;<i class="fa fa-toolbox fa-lg"></i>&nbsp;Ressources&nbsp;&nbsp;
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="menuderoulantRess">
-                            <li><a class="dropdown-item" href="outil_Create">Ajouter une ressource</a></li>
-                            <li><a class="dropdown-item" href="outil_Select">Modif/Suppr une ressource</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="menuderoulantThem" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            &nbsp;<i class="fas fa-thumbtack fa-lg"></i>&nbsp;thématique&nbsp;&nbsp;
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="menuderoulantThem">
-                            <li><a class="dropdown-item" href="them_Create">Ajouter une thématique</a></li>
-                            <li><a class="dropdown-item" href="them_Select">Modif/Suppr une thématique</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="menuderoulantCat" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            &nbsp;<i class="fas fa-sort-amount-up fa-lg"></i>&nbsp;catégorie&nbsp;&nbsp;
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="menuderoulantCat">
-                            <li><a class="dropdown-item" href="cat_Create">Ajouter une catégorie</a></li>
-                            <li><a class="dropdown-item" href="cat_Select">Modif/Suppr une catégorie</a></li>
-                        </ul>
-                    </li>
-
-                </ul>
-            </div>
-       </nav>
-    </header>
     <div class="container-fluid" style="margin-top: 7em !important;">
 
-        <h1 class="orange fw-bold pb-2 my-4 border-bottom border-4">Séléctionner la ressource à modifier</h1>
+        <h1 class="orange fw-bold pb-2 my-4 border-bottom border-4">Séléctionner la ressource à modifier / supprimer</h1>
 
         <table class="table table-striped">
             <tbody>

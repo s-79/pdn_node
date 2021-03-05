@@ -19,12 +19,13 @@ mysql.createConnection({
     let OutilsRouter = express.Router()
     let Outils = require('./assets/classes/outils')(db, config)
     let Them = require('./assets/classes/them')(db, config)
+    let Cat = require('./assets/classes/cat')(db, config)
 
     app.use(morgan)
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    // ------------------------------------------------------------------------ ! ! ! - - ROUTE /ID - - ! ! !
+    // ------------------------------------------------------------------------ ! ! ! - - ROUTE /id - - ! ! !
     OutilsRouter.route('/id/:id')
         // -------------------------------------------------------------------- Récupèrer un outil avec son ID
         .get(async (req, res) => {
@@ -82,43 +83,126 @@ mysql.createConnection({
             res.json(checkAndChange(addOutil))
         })
 
-        // ------------------------------------------------------------------------ ! ! ! - - ROUTE /them - - ! ! !
-        OutilsRouter.route('/them')
-            // ---------------------------------------------------------------- Récupèrer toutes les thématiques
-            .get(async (req, res) => {
-                let allOutils = await Them.getAll()
-                res.json(checkAndChange(allOutils))
-            })
+    // ------------------------------------------------------------------------ ! ! ! - - ROUTE /them - - ! ! !
+    OutilsRouter.route('/them')
+        // ---------------------------------------------------------------- Récupèrer toutes les thématiques
+        .get(async (req, res) => {
+            let allThem = await Them.getAll()
+            res.json(checkAndChange(allThem))
+        })
 
-        // ------------------------------------------------------------------------ ! ! ! - - ROUTE /CLASSER - - ! ! !
-        OutilsRouter.route('/classer/:id')
-            // ---------------------------------------------------------------- Récupèrer les thématqiues liées à un outil avec l'ID de l'outil
-            .get(async (req, res) => {
-                let themByOutil = await Outils.getThemByID(req.params.id)
-                res.json(checkAndChange(themByOutil))
-            })
+        //------------------------------------------------------------------ Ajouter une thématique avec ses paramètres
+        .post(async (req, res) => {
+            let addThem = await Them.add(
+                req.body.nom,
+                req.body.categorie
+            )
+            res.json(checkAndChange(addThem))
+        })
 
-            //------------------------------------------------------------------ Associer les thématiques à l'outil dans la table classer
-            .post(async (req, res) => {
-                let addThem = await Outils.addThem(
-                    req.params.id,
-                    req.body.thematique1,
-                    req.body.thematique2,
-                    req.body.thematique3,
-                    req.body.thematique4,
-                    req.body.thematique5
+    OutilsRouter.route('/them/id/:id')
+        // -------------------------------------------------------------------- Récupèrer une thématique avec son ID
+        .get(async (req, res) => {
+            let them = await Them.getByID(req.params.id)
+            res.json(checkAndChange(them))
+        })
+
+        // -------------------------------------------------------------------- Modifier une thématique avec ID
+        .put(async (req, res) => {
+            let updateThem = await Them.updateNom(
+                req.params.id,
+                req.body.nom,
+                req.body.categorie
+            )
+            res.json(checkAndChange(updateThem))
+        })
+
+        // -------------------------------------------------------------------- Supprimer une thématique avec ID
+        .delete(async (req, res) => {
+            let deleteThem = await Them.delete(req.params.id)
+            res.json(checkAndChange(deleteThem))
+        })
+
+    OutilsRouter.route('/cat/them/id/:id')
+        // -------------------------------------------------------------------- Modifier la catégorie d'une thématique avec son id
+        .put(async (req, res) => {
+            let updateThem = await Them.updateCat(
+                req.params.id,
+                req.body.categorie
+            )
+            res.json(checkAndChange(updateThem))
+        })
+
+
+    // ------------------------------------------------------------------------- ! ! ! - - ROUTE /cat - - ! ! !
+    OutilsRouter.route('/cat')
+        // -------------------------------------------------------------------- Récupèrer toutes les catégories
+        .get(async (req, res) => {
+            let allCat = await Cat.getAll()
+            res.json(checkAndChange(allCat))
+        })
+
+        //---------------------------------------------------------------------- Ajouter une catégorie avec son icone
+        .post(async (req, res) => {
+            let addOutil = await Cat.add(
+                req.body.nom,
+                req.body.icone
+            )
+            res.json(checkAndChange(addOutil))
+        })
+
+    OutilsRouter.route('/cat/id/:id')
+        // -------------------------------------------------------------------- Récupèrer une thématique avec son ID
+        .get(async (req, res) => {
+            let cat = await Cat.getByID(req.params.id)
+            res.json(checkAndChange(cat))
+        })
+
+        // -------------------------------------------------------------------- Modifier une thématique avec ID
+        .put(async (req, res) => {
+            let updateCat = await Cat.update(
+                req.params.id,
+                req.body.nom,
+                req.body.icone
+            )
+            res.json(checkAndChange(updateCat))
+        })
+
+        // -------------------------------------------------------------------- Supprimer une thématique avec ID
+        .delete(async (req, res) => {
+            let deleteCat = await Cat.delete(req.params.id)
+            res.json(checkAndChange(deleteCat))
+        })
+
+    // ------------------------------------------------------------------------ ! ! ! - - ROUTE /classer - - ! ! !
+    OutilsRouter.route('/classer/:id')
+        // -------------------------------------------------------------------- Récupèrer les thématqiues liées à un outil avec l'ID de l'outil
+        .get(async (req, res) => {
+            let themByOutil = await Outils.getThemByID(req.params.id)
+            res.json(checkAndChange(themByOutil))
+        })
+
+        //---------------------------------------------------------------------- Associer les thématiques à l'outil dans la table classer
+        .post(async (req, res) => {
+            let addThem = await Outils.addThem(
+                req.params.id,
+                req.body.thematique1,
+                req.body.thematique2,
+                req.body.thematique3,
+                req.body.thematique4,
+                req.body.thematique5
+            )
+            res.json(checkAndChange(addThem))
+        })
+
+        // -------------------------------------------------------------------- Supprimer l'association entre 1 thématique et 1 outil avec leurs ID
+        .delete(async (req, res) => {
+            let deleteClasser = await Outils.deleteClasser(
+                req.body.id,
+                req.params.id
                 )
-                res.json(checkAndChange(addThem))
-            })
-
-            // ---------------------------------------------------------------- Supprimer l'association entre 1 thématique et 1 outil avec leurs ID
-            .delete(async (req, res) => {
-                let deleteClasser = await Outils.deleteClasser(
-                    req.body.id,
-                    req.params.id
-                    )
-                res.json(checkAndChange(deleteClasser))
-            })
+            res.json(checkAndChange(deleteClasser))
+        })
 
     app.use(config.rootAPI+'outils', OutilsRouter)
 

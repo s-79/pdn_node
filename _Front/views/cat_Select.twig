@@ -1,0 +1,24 @@
+{% include 'header.html' %}
+
+    <div class="container-fluid" style="margin-top: 7em !important;">
+
+        <h1 class="orange fw-bold pb-2 my-4 border-bottom border-4">Séléctionner la catégorie à modifier / supprimer</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Catégorie</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cat in categories %}
+                    <tr style="cursor: pointer" onclick="document.location='/cat_Update/{{ cat.id }}'">
+                        <td>{{ cat.nom }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>

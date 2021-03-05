@@ -38,7 +38,9 @@ app.get('/', (req, res) => {
     res.redirect('/outil_Create')
 })
 
-// ----------------------------------------------------------------------------- ! ! ! !  - - C R E A T E - - ! ! !
+// ----------------------------------------------------------------------------- ! ! ! !  - - O U T I L S - - ! ! !
+
+// ----------------------------------------------------------------------------- C R E A T E
 
 // ----------------------------------------------------------------------------- Récupérer toutes les thématiques pouvant être associées à un outil
 app.get('/outil_Create', (req, res) => {
@@ -49,7 +51,7 @@ app.get('/outil_Create', (req, res) => {
     })
 })
 
-// ----------------------------------------------------------------------------- Ajouter un outil et de l'associer à une thématique
+// ----------------------------------------------------------------------------- Ajouter un outil et l'associer à une thématique
 app.post('/outil_Create', (req, res) => {
     apiCall('/outils', 'post', {
         nom: req.body.nom,
@@ -70,7 +72,16 @@ app.post('/outil_Create', (req, res) => {
     })
 })
 
-// ----------------------------------------------------------------------------- ! ! ! !  - - U P D A T E - - ! ! !
+// ----------------------------------------------------------------------------- U P D A T E
+
+// ----------------------------------------------------------------------------- Afficher la liste de tous les outils modifiables
+app.get('/outil_Select', (req, res) => {
+    apiCall('/outils', 'get', {}, res, (result) => {
+        res.render('outil_Select.twig', {
+            outils: result
+        })
+    })
+})
 
 // ----------------------------------------------------------------------------- Afficher la liste de tous les outils modifiables
 app.get('/outil_Select', (req, res) => {
@@ -99,29 +110,7 @@ app.get('/outil_Select_Them/:id', (req, res) => {
     })
 })
 
-// ----------------------------------------------------------------------------- Récupérer toutes les thématiques pouvant être associées à un outil
-app.get('/outil_Update_Them/:id', (req, res) => {
-    apiCall('/outils/them', 'get', {}, res, (result) => {
-        res.render('outil_Update_Them.twig', {
-            thematiques: result
-        })
-    })
-})
-
-// ----------------------------------------------------------------------------- Ajouter des thématiques liées à la ressource dans la table classer
-app.post('/outil_Update_Them/:id', (req, res) => {
-    apiCall('/outils/classer/'+req.params.id, 'post', {
-        thematique1: req.body.thematique1,
-        thematique2: req.body.thematique2,
-        thematique3: req.body.thematique3,
-        thematique4: req.body.thematique4,
-        thematique5: req.body.thematique5
-    }, res, () => {
-        res.redirect('/outil_Select')
-    })
-})
-
-// ----------------------------------------------------------------------------- Modifier les associations dans la table classer
+// ----------------------------------------------------------------------------- Modifier les donées des outils
 app.post('/outil_Update/:id', (req, res) => {
     apiCall('/outils/id/'+req.params.id, 'put', {
         nom: req.body.nom,
@@ -137,6 +126,30 @@ app.post('/outil_Update/:id', (req, res) => {
     })
 })
 
+// ----------------------------------------------------------------------------- Récupérer toutes les thématiques pouvant être associées à un outil
+app.get('/outil_Update_Them/:id', (req, res) => {
+    apiCall('/outils/them', 'get', {}, res, (result) => {
+        res.render('outil_Update_Them.twig', {
+            thematiques: result
+        })
+    })
+})
+
+// ----------------------------------------------------------------------------- Ajouter les thématiques liées à la ressource dans la table classer
+app.post('/outil_Update_Them/:id', (req, res) => {
+    apiCall('/outils/classer/'+req.params.id, 'post', {
+        thematique1: req.body.thematique1,
+        thematique2: req.body.thematique2,
+        thematique3: req.body.thematique3,
+        thematique4: req.body.thematique4,
+        thematique5: req.body.thematique5
+    }, res, () => {
+        res.redirect('/outil_Select')
+    })
+})
+
+// ----------------------------------------------------------------------------- D E L E T E
+
 // ----------------------------------------------------------------------------- Supprimer un outil et le dissocier de ses thématiques
 app.post('/delete', (req, res) => {
     apiCall('/outils/id/'+req.body.id, 'delete', {}, res, () => {
@@ -150,6 +163,153 @@ app.post('/delete/:id', (req, res) => {
         id: req.body.id,
     }, res, () => {
         res.redirect('/outil_Select_Them/'+req.body.id)
+    })
+})
+
+// ----------------------------------------------------------------------------- ! ! ! !  - - T H E M A T I Q U E S - - ! ! !
+
+// ----------------------------------------------------------------------------- C R E A T E
+
+// ----------------------------------------------------------------------------- Récupérer toutes les catégories pouvant être associées à une thématique
+app.get('/them_Create', (req, res) => {
+    apiCall('/outils/cat', 'get', {}, res, (result) => {
+        res.render('them_Create.twig', {
+            categories: result
+        })
+    })
+})
+
+// ----------------------------------------------------------------------------- Ajouter une thématique et l'associer à une catégorie
+app.post('/them_Create', (req, res) => {
+    apiCall('/outils/them', 'post', {
+        nom: req.body.nom,
+        categorie: req.body.categorie
+    }, res, () => {
+        res.redirect('/them_Select')
+    })
+})
+
+// ----------------------------------------------------------------------------- U P D A T E
+
+// ----------------------------------------------------------------------------- Afficher la liste de toutes les thématiques modifiables
+app.get('/them_Select', (req, res) => {
+    apiCall('outils/them', 'get', {}, res, (result) => {
+        res.render('them_Select.twig', {
+            thematiques: result
+        })
+    })
+})
+
+// ----------------------------------------------------------------------------- Récupérer le nom et la catégorie de la thématique séléctionnée
+app.get('/them_Get/:id', (req, res) => {
+    apiCall('/outils/them/id/'+req.params.id, 'get', {}, res, (result) => {
+        res.render('them_Get.twig', {
+            thematique: result
+        })
+    })
+})
+
+// ----------------------------------------------------------------------------- Supprimer la thématique
+app.post('/them_Delete', (req, res) => {
+    apiCall('/outils/them/id/'+req.body.id, 'delete', {}, res, () => {
+        res.redirect('/them_Select')
+    })
+})
+
+// ----------------------------------------------------------------------------- Récupérer toutes les catégories pouvant être associées à une thématique
+app.get('/them_Update_Cat/:id', (req, res) => {
+    apiCall('/outils/cat', 'get', {}, res, (result) => {
+        res.render('them_Update_Cat.twig', {
+            categories: result
+        })
+    })
+})
+
+// ----------------------------------------------------------------------------- Modifier les catégories liées à la thématique
+app.post('/them_Update_Cat/:id', (req, res) => {
+    apiCall('/outils/cat/them/id/'+req.params.id, 'put', {
+        categorie: req.body.categorie
+    }, res, () => {
+        res.redirect('/them_Select')
+    })
+})
+
+// ----------------------------------------------------------------------------- Récupérer le nom de la thématique séléctionnée
+app.get('/them_Update/:id', (req, res) => {
+    apiCall('/outils/them/id/'+req.params.id, 'get', {}, res, (result) => {
+        res.render('them_Update.twig', {
+            thematique: result
+        })
+    })
+})
+
+// ----------------------------------------------------------------------------- Modifier le nom de la thématique
+app.post('/them_Update/:id', (req, res) => {
+    apiCall('/outils/them/id/'+req.params.id, 'put', {
+        nom: req.body.nom
+    }, res, () => {
+        res.redirect('/them_Select')
+    })
+})
+
+// ----------------------------------------------------------------------------- ! ! ! !  - - C A T E G O R I E S - - ! ! !
+
+// ----------------------------------------------------------------------------- C R E A T E
+
+// ----------------------------------------------------------------------------- Récupérer toutes les catégories
+app.get('/cat_Create', (req, res) => {
+    apiCall('/outils/cat', 'get', {}, res, (result) => {
+        res.render('cat_Create.twig', {
+            categories: result
+        })
+    })
+})
+
+
+// ----------------------------------------------------------------------------- Ajouter une catégorie
+app.post('/cat_Create', (req, res) => {
+    apiCall('/outils/cat', 'post', {
+        nom: req.body.nom,
+        icone: req.body.icone
+    }, res, () => {
+        res.redirect('/cat_Select')
+    })
+})
+
+// ----------------------------------------------------------------------------- U P D A T E
+
+// ----------------------------------------------------------------------------- Afficher la liste de toutes les catégories modifiables
+app.get('/cat_Select', (req, res) => {
+    apiCall('outils/cat', 'get', {}, res, (result) => {
+        res.render('cat_Select.twig', {
+            categories: result
+        })
+    })
+})
+
+// ----------------------------------------------------------------------------- Récupérer le nom de la thématique séléctionnée
+app.get('/cat_Update/:id', (req, res) => {
+    apiCall('/outils/cat/id/'+req.params.id, 'get', {}, res, (result) => {
+        res.render('cat_Update.twig', {
+            categorie: result
+        })
+    })
+})
+
+// ----------------------------------------------------------------------------- Modifier les donées des outils
+app.post('/cat_Update/:id', (req, res) => {
+    apiCall('/outils/cat/id/'+req.params.id, 'put', {
+        nom: req.body.nom,
+        icone: req.body.icone
+    }, res, () => {
+        res.redirect('/cat_Select')
+    })
+})
+
+// ----------------------------------------------------------------------------- Supprimer la catégorie
+app.post('/cat_Delete', (req, res) => {
+    apiCall('/outils/cat/id/'+req.body.id, 'delete', {}, res, () => {
+        res.redirect('/cat_Select')
     })
 })
 

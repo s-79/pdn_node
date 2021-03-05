@@ -10,7 +10,7 @@ module.exports = (_db, _config) => {
 // ---------------------------------------------------------------------------- ! ! !  - - R E A D - - ! ! !
 let Outils = class {
 
-    // Envoie un outil via son ID
+    // ------------------------------------------------------------------------ Envoyer les données d'un outil via son ID
     static getByID(id) {
 
         return new Promise((next) => {
@@ -26,7 +26,7 @@ let Outils = class {
         })
     }
 
-    // Envoie l'id et le nom de tous les outils
+    // ------------------------------------------------------------------------- Envoyer l'id et le nom de tous les outils
     static getAll() {
         return new Promise((next) => {
             db.query('SELECT id, nom FROM outil ORDER BY nom')
@@ -35,7 +35,7 @@ let Outils = class {
         })
     }
 
-    // ------------------------------------------------------------------------- Récupère les thématiques associer à un outil dans la table classer
+    // ------------------------------------------------------------------------- Récuperer les thématiques associer à un outil dans la table classer
     static getThemByID(id) {
 
         return new Promise((next) => {
@@ -47,7 +47,7 @@ let Outils = class {
 
 // ---------------------------------------------------------------------------- ! ! !  - - C R E A T E- - ! ! !
 
-    // Ajoute un outil avec ses paramètres
+    // ------------------------------------------------------------------------ Ajouter un outil avec ses paramètres
     static add(nom, description, thematique1, thematique2, thematique3, thematique4, thematique5, image, fichier, age, nom_editeur, site_editeur, valide) {
 
         return new Promise((next) => {
@@ -110,7 +110,7 @@ let Outils = class {
 
 // ---------------------------------------------------------------------------- ! ! !  - - U P D A T E - - ! ! !
 
-    // Modifie les données de l'outil via son ID
+    // ------------------------------------------------------------------------- Modifier les données de l'outil via son ID
     static update(id, nom, description, image, fichier, age, nom_editeur, site_editeur, valide) {
 
         return new Promise((next) => {

@@ -10,12 +10,14 @@ module.exports = (_db, _config) => {
 
 let Them = class {
 
-    // Envoie une thématique via son ID
+// ---------------------------------------------------------------------------- ! ! !  - - R E A D - - ! ! !
+
+    // ------------------------------------------------------------------------- Envoyer les données d'une thématique via son ID
     static getByID(id) {
 
         return new Promise((next) => {
 
-            db.query('SELECT * FROM thematique WHERE id = ?', [id])
+            db.query('SELECT * FROM v_cat_them WHERE id_thematique = ?', [id])
                 .then((result) => {
                     if (result[0] != undefined)
                         next(result[0])
@@ -28,18 +30,20 @@ let Them = class {
 
     }
 
-    // Envoie toutes les thématiques (avec un maximum optionnel)
+    // ------------------------------------------------------------------------- Envoyer toutes les thématiques
     static getAll() {
 
         return new Promise((next) => {
-            db.query('SELECT * FROM thematique')
+            db.query('SELECT * FROM v_cat_them ORDER BY nom_thematique')
                 .then((result) => next(result))
                 .catch((err) => next(err))
         })
     }
 
-    // Ajoute une thématique avec son nom
-    static add(nom) {
+// ---------------------------------------------------------------------------- ! ! !  - - C R E A T E- - ! ! !
+
+    // ------------------------------------------------------------------------- Ajouter une thématique avec son nom
+    static add(nom, categorie) {
 
         return new Promise((next) => {
 
@@ -52,7 +56,7 @@ let Them = class {
                         if (result[0] != undefined) {
                             next(new Error(config.errors.nameAlreadyTaken))
                         } else {
-                            return db.query('INSERT INTO thematique(nom) VALUES(?)', [nom])
+                            return db.query('INSERT INTO thematique(nom, id_categorie) VALUES(?,?)', [nom, categorie])
                         }
                     })
                     .then(() => {
@@ -74,42 +78,43 @@ let Them = class {
 
     }
 
-    // Modifie les données de la thématique via son ID
-    static update(id, nom) {
+// ---------------------------------------------------------------------------- ! ! !  - - U P D A T E - - ! ! !
 
+    // ------------------------------------------------------------------------- Modifier le nom de la thématique via son ID
+    static updateNom(id, nom) {
         return new Promise((next) => {
-
-            if (nom != undefined && nom.trim() != '') {
-
-                nom = nom.trim()
-
-                db.query('SELECT * FROM thematique WHERE id = ?', [id])
-                    .then((result) => {
-                        if (result[0] != undefined) {
-                            return db.query('SELECT * FROM thematique WHERE nom = ? AND id != ?', [nom, id])
-                        } else {
-                            next(new Error(config.errors.wrongID))
-                        }
-                    })
-                    .then((result) => {
-                        if (result[0] != undefined) {
-                            next(new Error(config.errors.sameName))
-                        } else {
-                            return db.query('UPDATE thematique SET nom = ? WHERE id = ?', [nom, id])
-                        }
-                    })
-                    .then(() => next(true))
-                    .catch((err) => next(err))
-
-            } else {
-                next(new Error(config.errors.noNameValue))
-            }
-
+            db.query('SELECT * FROM thematique WHERE id = ?', [id])
+                .then((result) => {
+                    if (result[0] != undefined) {
+                        return db.query('UPDATE thematique SET nom = ? WHERE id = ?', [nom, id])
+                    } else {
+                        next(new Error(config.errors.wrongID))
+                    }
+                })
+                .then(() => next(true))
+                .catch((err) => next(err))
         })
-
     }
 
-    // Supprime une thematique via son ID
+    // ------------------------------------------------------------------------- Modifier la catégorie de la thématique via son ID
+    static updateCat(id, categorie) {
+        return new Promise((next) => {
+            db.query('SELECT * FROM thematique WHERE id = ?', [id])
+                .then((result) => {
+                    if (result[0] != undefined) {
+                        return db.query('UPDATE thematique SET id_categorie = ? WHERE id = ?', [categorie, id])
+                    } else {
+                        next(new Error(config.errors.wrongID))
+                    }
+                })
+                .then(() => next(true))
+                .catch((err) => next(err))
+        })
+    }
+
+// ---------------------------------------------------------------------------- ! ! !  - - D E L E T E - - ! ! !
+
+    // ------------------------------------------------------------------------- Supprimer une thematique via son ID
     static delete(id) {
 
         return new Promise((next) => {

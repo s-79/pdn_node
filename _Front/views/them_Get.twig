@@ -1,0 +1,37 @@
+{% include 'header2.html' %}
+
+<div class="container-fluid" style="margin-top: 7em !important;">
+
+    <div class="row border-bottom border-4 my-4">
+        <div class="col-10">
+            <h1 class="orange fw-bold">Modifier la thématique "{{ thematique.nom_thematique }}"</h1>
+        </div>
+        <div class="col-2 d-flex justify-content-end pb-2">
+            <form action="/them_Delete" method="post">
+                <input type="hidden" name="id" value="{{ thematique.id_thematique }}">
+                <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt pe-2"></i> Suppr. thematique</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-6 col-xl-4 mx-auto">
+            <div class="m-3 py-4 px-3 rounded rounded-3 bg-bleu">
+                <div class="form-floating mx-3 mt-3">
+                    <input type="text" class="form-control" value="{{ thematique.nom_categorie }}" placeholder="Nom de la catégorie" disabled>
+                    <label for="nom_cat">Nom de la catégorie</label>
+                </div>
+                <div class="form-floating mx-3 mt-3">
+                    <input type="text" class="form-control" value="{{ thematique.nom_thematique }}" placeholder="Nom de la thématique" disabled>
+                    <label for="nom_them">Nom de la thématique</label>
+                </div>
+                <div class="form-group d-flex justify-content-center mx-3 mt-4 pt-3">
+                    <button class="btn btn-warning mx-2" onclick="document.location='/them_Update_Cat/'+{{ thematique.id_thematique }}">Modifier la catégorie</button>
+                    <button class="btn btn-warning mx-2" onclick="document.location='/them_Update/'+{{ thematique.id_thematique }}">Modifier le nom</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

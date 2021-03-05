@@ -1,0 +1,25 @@
+{% include 'header.html' %}
+
+    <div class="container-fluid" style="margin-top: 7em !important;">
+
+        <h1 class="orange fw-bold pb-2 my-4 border-bottom border-4">Séléctionner la thématique à modifier / supprimer</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Thématique</th>
+                    <th scope="col">Catégorie</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for them in thematiques %}
+                    <tr style="cursor: pointer" onclick="document.location='/them_Get/{{ them.id_thematique }}'">
+                        <td>{{ them.nom_thematique }}</td><td>{{ them.nom_categorie }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>
