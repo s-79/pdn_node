@@ -83,15 +83,6 @@ app.get('/outil_Select', (req, res) => {
     })
 })
 
-// ----------------------------------------------------------------------------- Afficher la liste de tous les outils modifiables
-app.get('/outil_Select', (req, res) => {
-    apiCall('/outils', 'get', {}, res, (result) => {
-        res.render('outil_Select.twig', {
-            outils: result
-        })
-    })
-})
-
 // ----------------------------------------------------------------------------- Récupérer les données de l'outil séléctionné
 app.get('/outil_Update/:id', (req, res) => {
     apiCall('/outils/id/'+req.params.id, 'get', {}, res, (result) => {
